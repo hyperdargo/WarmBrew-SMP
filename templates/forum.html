@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Forum{% if page > 1 %}, page {{ page }}{% endif %}: WarmBrew SMP{% endblock %}
+{% block description %}The WarmBrew SMP community forum. Raid stories, trades, base reveals and questions from players on the anarchy server.{% endblock %}
+
+{% block content %}
+<header class="page-head">
+  <div class="wrap page-head__split">
+    <div>
+      <h1>Forum</h1>
+      <p class="page-head__lede">Raid stories, trades, base reveals, questions. No account needed.</p>
+    </div>
+    <a class="button" href="#new-post">Start a thread</a>
+  </div>
+</header>
+
+<div class="wrap forum">
+  <section aria-labelledby="threads-title">
+    <h2 id="threads-title" class="visually-hidden">Threads</h2>
+    {% if posts %}
+    <ol class="threads" role="list">
+      {% for post in posts %}
+      <li class="thread">
+        <h3 class="thread__title"><a href="{{ url_for('forum_post', post_id=post.id) }}">{{ post.title }}</a></h3>
+        <p class="thread__preview">{{ post.content[:180] }}{% if post.content|length > 180 %}…{% endif %}</p>
+        <p class="thread__meta">
+          <span>{{ post.author }}</span>
+          <time datetime="{{ post.date }}">{{ post.date|datefmt }}</time>
+          <span>{{ post.comments }} {{ 'comment' if post.comments == 1 else 'comments' }}</span>
+        </p>
+      </li>
+      {% endfor %}
+    </ol>
+
+    {% if pages > 1 %}
+    <nav class="pager" aria-label="Pages">
+      {% if page > 1 %}<a class="text-link" href="{{ url_for('forum', page=page - 1) }}" rel="prev">Newer threads</a>{% else %}<span></span>{% endif %}
+      <span class="pager__count">Page {{ page }} of {{ pages }}</span>
+      {% if page < pages %}<a class="text-link" href="{{ url_for('forum', page=page + 1) }}" rel="next">Older threads</a>{% else %}<span></span>{% endif %}
+    </nav>
+    {% endif %}
+    {% else %}
+    <div class="empty">
+      <p class="empty__title">No threads yet.</p>
+      <p>Be the first. Tell everyone where you <em>didn't</em> build your base.</p>
+    </div>
+    {% endif %}
+  </section>
+
+  <section class="compose" id="new-post" aria-labelledby="new-post-title">
+    <h2 id="new-post-title">Start a thread</h2>
+    {% if errors.form %}<p class="form-error form-error--block" role="alert">{{ errors.form }}</p>{% endif %}
+    <form method="post" action="{{ url_for('create_post') }}" class="form" novalidate>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="form__hp" aria-hidden="true">
+        <label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+      </div>
+
+      <div class="field">
+        <label for="title">Title</label>
+        <input id="title" name="title" type="text" required minlength="3" maxlength="{{ limits.title }}"
+               value="{{ form.title }}" {% if errors.title %}aria-invalid="true" aria-describedby="title-error"{% endif %}>
+        {% if errors.title %}<p class="form-error" id="title-error">{{ errors.title }}</p>{% endif %}
+      </div>
+
+      <div class="field">
+        <label for="author">Name <span class="field__opt">optional</span></label>
+        <input id="author" name="author" type="text" maxlength="{{ limits.author }}" placeholder="Anonymous" value="{{ form.author }}" autocomplete="nickname">
+      </div>
+
+      <div class="field">
+        <label for="content">Post</label>
+        <textarea id="content" name="content" rows="7" required minlength="10" maxlength="{{ limits.post }}"
+                  {% if errors.content %}aria-invalid="true" aria-describedby="content-error"{% endif %}>{{ form.content }}</textarea>
+        {% if errors.content %}<p class="form-error" id="content-error">{{ errors.content }}</p>{% endif %}
+      </div>
+
+      <p class="form__note">Posts are public and can't be edited. Don't share passwords or base coordinates you want to keep.</p>
+      <button class="button" type="submit" data-submit>Publish thread</button>
+    </form>
+  </section>
+</div>
+{% endblock %}

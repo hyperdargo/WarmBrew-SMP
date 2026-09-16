@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }}: WarmBrew SMP forum{% endblock %}
+{% block description %}{{ post.content[:155]|replace('\n', ' ') }}{% endblock %}
+
+{% block content %}
+<article class="wrap post" aria-labelledby="post-title">
+  <a class="text-link text-link--back" href="{{ url_for('forum') }}">All threads</a>
+  <header class="post__head">
+    <h1 id="post-title">{{ post.title }}</h1>
+    <p class="thread__meta">
+      <span>{{ post.author }}</span>
+      <time datetime="{{ post.date }}">{{ post.date|datefmt }}</time>
+    </p>
+  </header>
+  <div class="post__body">{{ post.content }}</div>
+</article>
+
+<section class="wrap comments" id="comments" aria-labelledby="comments-title">
+  <h2 id="comments-title">{{ comments|length }} {{ 'reply' if comments|length == 1 else 'replies' }}</h2>
+
+  {% if comments %}
+  <ol class="comment-list" role="list">
+    {% for comment in comments %}
+    <li class="comment" id="comment-{{ comment.id }}">
+      <p class="thread__meta">
+        <span>{{ comment.author }}</span>
+        <time datetime="{{ comment.date }}">{{ comment.date|datefmt }}</time>
+      </p>
+      <div class="comment__body">{{ comment.content }}</div>
+    </li>
+    {% endfor %}
+  </ol>
+  {% else %}
+  <p class="comments__empty">No replies yet.</p>
+  {% endif %}
+
+  <div class="compose compose--reply">
+    <h3>Reply</h3>
+    {% if errors.form %}<p class="form-error form-error--block" role="alert">{{ errors.form }}</p>{% endif %}
+    <form method="post" action="{{ url_for('add_comment', post_id=post.id) }}" class="form" novalidate>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="form__hp" aria-hidden="true">
+        <label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+      </div>
+      <div class="field">
+        <label for="author">Name <span class="field__opt">optional</span></label>
+        <input id="author" name="author" type="text" maxlength="{{ limits.author }}" placeholder="Anonymous" value="{{ form.author }}" autocomplete="nickname">
+      </div>
+      <div class="field">
+        <label for="content">Your reply</label>
+        <textarea id="content" name="content" rows="4" required maxlength="{{ limits.comment }}"
+                  {% if errors.content %}aria-invalid="true" aria-describedby="content-error"{% endif %}>{{ form.content }}</textarea>
+        {% if errors.content %}<p class="form-error" id="content-error">{{ errors.content }}</p>{% endif %}
+      </div>
+      <button class="button" type="submit" data-submit>Post reply</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

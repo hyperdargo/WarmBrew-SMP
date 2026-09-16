@@ -1,0 +1,15 @@
+# Runtime data: never commit, a git pull would overwrite the live forum
+*.db
+*.db-journal
+.secret_key
+.env
+
+# Old site kept locally for reference
+_legacy/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/

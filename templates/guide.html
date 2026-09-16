@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}WarmBrew SMP guide: commands, accounts and anarchy{% endblock %}
+{% block description %}Everything about playing on WarmBrew SMP: essential commands, account security for premium and cracked players, supported versions, and what anarchy means here.{% endblock %}
+
+{% block content %}
+<header class="page-head">
+  <div class="wrap">
+    <h1>The guide</h1>
+    <p class="page-head__lede">What anarchy means here, the few commands that exist, and how to keep your account yours.</p>
+  </div>
+</header>
+
+<div class="wrap doc doc--guide">
+  <nav class="toc" aria-label="On this page">
+    <a href="#anarchy">Anarchy</a>
+    <a href="#commands">Commands</a>
+    <a href="#accounts">Accounts</a>
+    <a href="#versions">Versions</a>
+    <a href="#plugins">Plugins</a>
+  </nav>
+
+  <section class="doc__section" aria-labelledby="anarchy">
+    <h2 id="anarchy">What anarchy means here</h2>
+    <p>No rules. Griefing, raiding, PvP and theft are allowed everywhere, and nobody moderates gameplay. Build hidden bases, defend with traps, trust no one.</p>
+    <dl class="facts">
+      {% for group in removed %}
+      <div>
+        <dt>{{ group.label }}</dt>
+        <dd>{{ group.note }} <span class="facts__cmds">{% for command in group.commands %}<code>{{ command }}</code> {% endfor %}</span></dd>
+      </div>
+      {% endfor %}
+    </dl>
+  </section>
+
+  <section class="doc__section" aria-labelledby="commands">
+    <h2 id="commands">Commands that do exist</h2>
+    <table class="command-table">
+      <caption>Account</caption>
+      <tbody>
+        <tr><th scope="row"><code>/register &lt;pass&gt; &lt;pass&gt;</code></th><td>Create your account on first join</td></tr>
+        <tr><th scope="row"><code>/login &lt;password&gt;</code></th><td>Log in (cracked accounts, every session)</td></tr>
+        <tr><th scope="row"><code>/premium</code></th><td>Link your UUID for automatic login (premium accounts)</td></tr>
+      </tbody>
+    </table>
+    <table class="command-table">
+      <caption>AI chat</caption>
+      <tbody>
+        {% for command, desc in ai_commands %}
+        <tr><th scope="row"><code>{{ command }}</code></th><td>{{ desc }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="doc__example">Try <code>/aichat how to find diamonds</code> or <code>/aichat tell me a minecraft joke</code>. Nobody else can see the conversation.</p>
+  </section>
+
+  <section class="doc__section" aria-labelledby="accounts">
+    <h2 id="accounts">Keeping your account yours</h2>
+    <div class="doc__split">
+      <div class="doc__card">
+        <h3>Premium (Java / Microsoft)</h3>
+        <p>Run <code>/premium</code> once to link your UUID. Future logins are automatic.</p>
+      </div>
+      <div class="doc__card">
+        <h3>Cracked / offline</h3>
+        <p>You must <code>/login</code> every session. Anyone can use your username, so use a strong password you don't use anywhere else.</p>
+      </div>
+    </div>
+    <p class="doc__tip">Staff can't recover lost passwords on an anarchy server. Write yours down somewhere safe.</p>
+  </section>
+
+  <section class="doc__section" aria-labelledby="versions">
+    <h2 id="versions">Supported versions</h2>
+    <p>Minecraft Java <strong>{{ server.versions }}</strong>, through ViaVersion and ViaBackwards. Bedrock is not supported.</p>
+  </section>
+
+  <section class="doc__section" aria-labelledby="plugins">
+    <h2 id="plugins">Plugins</h2>
+    <div class="stack__groups stack__groups--doc">
+      {% for group in plugins %}
+      <div class="stack__group">
+        <h3>{{ group.group }}</h3>
+        <dl>
+          {% for name, desc in group['items'] %}
+          <div class="stack__item"><dt>{{ name }}</dt><dd>{{ desc }}</dd></div>
+          {% endfor %}
+        </dl>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock %}

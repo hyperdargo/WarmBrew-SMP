@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}WarmBrew SMP: Java anarchy survival server{% endblock %}</title>
+  <meta name="description" content="{% block description %}Pure vanilla anarchy survival for Minecraft Java {{ server.versions }}. No shops, no claims, no teleports, no rules. Join at {{ server.ip }}.{% endblock %}">
+  <link rel="canonical" href="{{ canonical }}">
+  {% block robots %}{% endblock %}
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="WarmBrew SMP">
+  <meta property="og:title" content="{{ self.title()|trim }}">
+  <meta property="og:description" content="{{ self.description()|trim }}">
+  <meta property="og:url" content="{{ canonical }}">
+  <meta property="og:image" content="{{ site_url }}{{ url_for('static', filename='img/android-chrome-512x512.png') }}">
+  <meta name="twitter:card" content="summary">
+
+  <meta name="theme-color" content="#17100c">
+  <link rel="icon" href="{{ asset('img/favicon.ico') }}" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/favicon-32x32.png') }}">
+  <link rel="apple-touch-icon" href="{{ asset('img/apple-touch-icon.png') }}">
+  <link rel="manifest" href="{{ url_for('webmanifest') }}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Pixelify+Sans:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="{{ asset('css/site.css') }}">
+  <script src="{{ asset('js/site.js') }}" defer></script>
+  {% block head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="nav wrap" aria-label="Main">
+      <a class="brand" href="{{ url_for('index') }}">
+        <img src="{{ asset('img/favicon-32x32.png') }}" width="28" height="28" alt="">
+        <span>WarmBrew</span>
+      </a>
+      <ul class="nav__links">
+        {% set here = request.endpoint %}
+        <li><a href="{{ url_for('play') }}" {% if here == 'play' %}aria-current="page"{% endif %}>Join</a></li>
+        <li><a href="{{ url_for('guide') }}" {% if here == 'guide' %}aria-current="page"{% endif %}>Guide</a></li>
+        <li><a href="{{ url_for('forum') }}" {% if here in ('forum', 'forum_post', 'create_post', 'add_comment') %}aria-current="page"{% endif %}>Forum</a></li>
+      </ul>
+      <button class="ip-button ip-button--nav" type="button" data-copy="{{ server.ip }}">
+        <span class="ip-button__ip">{{ server.ip }}</span>
+        <span class="ip-button__action" data-copy-label>Copy IP</span>
+      </button>
+    </nav>
+  </header>
+
+  <main id="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer__grid">
+      <div class="footer__brand">
+        <p class="footer__name">
+          <img src="{{ asset('img/favicon-32x32.png') }}" width="24" height="24" alt="">
+          WarmBrew SMP
+        </p>
+        <p class="footer__motd">{{ server.motd }}</p>
+        <p class="footer__meta">Java Edition {{ server.versions }}<br>{{ server.ip }}</p>
+      </div>
+      <nav class="footer__col" aria-label="Site">
+        <h2>Server</h2>
+        <a href="{{ url_for('play') }}">How to join</a>
+        <a href="{{ url_for('guide') }}">Guide &amp; commands</a>
+        <a href="{{ url_for('forum') }}">Forum</a>
+      </nav>
+      <nav class="footer__col" aria-label="Elsewhere">
+        <h2>Elsewhere</h2>
+        {% if links.discord %}<a href="{{ links.discord }}" rel="noopener" target="_blank">Discord</a>{% endif %}
+        <a href="{{ links.ai_plugin }}" rel="noopener" target="_blank">DTEmpire AI Chat on GitHub</a>
+        <a href="{{ links.modpack }}" rel="noopener" target="_blank">DTEmpire Optimized on Modrinth</a>
+      </nav>
+    </div>
+    <div class="wrap footer__legal">
+      <p>&copy; {{ year }} WarmBrew SMP. Not affiliated with Mojang or Microsoft.</p>
+    </div>
+  </footer>
+
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}How to join WarmBrew SMP{% endblock %}
+{% block description %}Join WarmBrew SMP on Minecraft Java {{ server.versions }}: add {{ server.ip }}, register with /register, then use /premium or /login.{% endblock %}
+
+{% block content %}
+<header class="page-head">
+  <div class="wrap">
+    <h1>How to join</h1>
+    <p class="page-head__lede">Three minutes from the multiplayer menu to your first night. Java Edition {{ server.versions }}.</p>
+  </div>
+</header>
+
+<div class="wrap doc">
+  <section class="doc__section" aria-labelledby="address">
+    <h2 id="address"><span class="doc__num">1</span>Add the server</h2>
+    <p>Open Minecraft Java Edition, go to Multiplayer, choose Add Server and paste this address. No port needed, no whitelist.</p>
+    <button class="ip-button ip-button--large" type="button" data-copy="{{ server.ip }}">
+      <span class="ip-button__ip">{{ server.ip }}</span>
+      <span class="ip-button__action" data-copy-label>Copy IP</span>
+    </button>
+  </section>
+
+  <section class="doc__section" aria-labelledby="register">
+    <h2 id="register"><span class="doc__num">2</span>Register on your first join</h2>
+    <p>Register as soon as you spawn, you have 60 seconds. Type the same password twice to confirm it.</p>
+    <pre class="code"><code>/register &lt;password&gt; &lt;password&gt;</code></pre>
+    <p class="doc__example">For example: <code>/register mysecretpass mysecretpass</code></p>
+  </section>
+
+  <section class="doc__section" aria-labelledby="login">
+    <h2 id="login"><span class="doc__num">3</span>Set up how you log in</h2>
+    <div class="doc__split">
+      <div class="doc__card">
+        <h3>Premium (Microsoft) account</h3>
+        <p>Link your Minecraft UUID once. Every join after that logs you in automatically, no password.</p>
+        <pre class="code"><code>/premium</code></pre>
+      </div>
+      <div class="doc__card">
+        <h3>Cracked / offline account</h3>
+        <p>Log in every session. Anyone can connect with your username on another client, so use a strong, unique password.</p>
+        <pre class="code"><code>/login &lt;password&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc__section doc__section--warn" aria-labelledby="before">
+    <h2 id="before">Know this before you spawn</h2>
+    <dl class="facts">
+      <div><dt>Java Edition only</dt><dd>Bedrock, Geyser and Floodgate are not supported.</dd></div>
+      <div><dt>Pure anarchy</dt><dd>No rules, no land claims, no moderation on gameplay. Griefing, raiding and PvP are allowed everywhere.</dd></div>
+      <div><dt>Zero economy</dt><dd>No /shop, /auction, /sell, /bal or /pay.</dd></div>
+      <div><dt>Vanilla travel</dt><dd>No /tpa, /home, /spawn or /back. Walk, boat, or elytra.</dd></div>
+      <div><dt>Voice chat</dt><dd>Proximity voice through Simple Voice Chat.</dd></div>
+    </dl>
+  </section>
+
+  <section class="doc__section" aria-labelledby="ai">
+    <h2 id="ai">Private AI chat</h2>
+    <p>Ask the in-game AI anything. Your conversation stays between you and the AI.</p>
+    <table class="command-table">
+      <caption class="visually-hidden">AI chat commands</caption>
+      <tbody>
+        {% for command, desc in ai_commands %}
+        <tr><th scope="row"><code>{{ command }}</code></th><td>{{ desc }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <p class="doc__next">Want the full rundown? <a class="text-link" href="{{ url_for('guide') }}">Read the guide</a></p>
+</div>
+{% endblock %}
