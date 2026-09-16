@@ -8,7 +8,7 @@ Configuration is environment-only (all optional):
     SECRET_KEY           session signing key (auto-generated to .secret_key if unset)
     SITE_URL             public base URL, e.g. https://<your-website-domain> (canonical + sitemap)
     MC_HOST / MC_PORT    Minecraft server to ping for live status            default warmbrew.ankitgupta.com.np:25599
-    DISCORD_URL          Discord invite; the Discord link is hidden until this is set
+    DISCORD_URL          Discord invite link                                   default https://discord.gg/53f9Dgat4U
     DATABASE_PATH        SQLite file for the forum                            default ./warmbrew.db
     COOKIE_SECURE=1      mark cookies Secure (only when served over HTTPS)
     TRUST_PROXY=1        trust one reverse proxy's X-Forwarded-* headers
@@ -50,7 +50,7 @@ DB_PATH = Path(os.environ.get("DATABASE_PATH", BASE_DIR / "warmbrew.db"))
 SERVER_IP = "warmbrew.ankitgupta.com.np"
 MC_HOST = os.environ.get("MC_HOST", SERVER_IP)
 MC_PORT = int(os.environ.get("MC_PORT", "25599"))
-DISCORD_URL = os.environ.get("DISCORD_URL", "").strip()
+DISCORD_URL = os.environ.get("DISCORD_URL", "https://discord.gg/53f9Dgat4U").strip()
 SITE_URL = os.environ.get("SITE_URL", "").strip().rstrip("/")
 
 LIMITS = {"title": 120, "author": 32, "post": 5000, "comment": 2000}

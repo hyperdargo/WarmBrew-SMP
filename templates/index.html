@@ -230,6 +230,7 @@
         <span class="ip-button__ip">{{ server.ip }}</span>
         <span class="ip-button__action" data-copy-label>Copy IP</span>
       </button>
+      {% if links.discord %}<p class="finale__discord"><a class="text-link" href="{{ links.discord }}" rel="noopener" target="_blank">Join the Discord</a></p>{% endif %}
     </div>
 
     <div class="finale__forum">

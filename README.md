@@ -78,7 +78,7 @@ Everything is optional and set through environment variables (Pterodactyl startu
 | `SITE_URL` | request host | Public URL, e.g. `https://your-domain`. Used for canonical links, Open Graph and the sitemap. **Recommended** |
 | `MC_HOST` | `warmbrew.ankitgupta.com.np` | Minecraft server to ping for live status |
 | `MC_PORT` | `25599` | Minecraft server port (from the domain's SRV record) |
-| `DISCORD_URL` | *(empty)* | Discord invite link. The Discord link stays hidden until this is set |
+| `DISCORD_URL` | `https://discord.gg/53f9Dgat4U` | Discord invite link shown in the footer and home page |
 | `DATABASE_PATH` | `./warmbrew.db` | SQLite file for the forum |
 | `COOKIE_SECURE` | off | Set to `1` when the site is served over HTTPS |
 | `TRUST_PROXY` | off | Set to `1` if the site sits behind one reverse proxy (Nginx, Cloudflare Tunnel…) so rate limits see real visitor IPs |

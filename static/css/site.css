@@ -847,6 +847,7 @@ a { color: inherit; }
   margin-bottom: var(--s-1);
 }
 .finale__empty { color: var(--steam-dim); }
+.finale__discord { margin-top: var(--s-2); }
 .thread-list { list-style: none; padding: 0; border-top: 1px solid var(--rule); }
 .thread-list li { padding-block: 0.8rem; border-bottom: 1px solid var(--rule); display: grid; }
 .thread-list a { font-weight: 600; text-decoration: none; }
